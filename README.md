@@ -1,2 +1,2 @@
 # so_long
-The so_long project that I did for my 42 cursus journey.
+The so_long project that I did for my 42 cursus journey. I used GIMP and free online xpm converters for xpm files (64x64) and get the originals spites from the link in the subject page. It is ok for the norm except comments. In this project I used minilix and libft (which I coded). Also libft includes ft_printf and get_next_line I merged them under one Makefile and did some changes. I loved coding this project so I will add bonuses, audio , animations and so on but right now this is the most basic version. When I add bonus or unnecessary improvements I will seperate them from the original one.
