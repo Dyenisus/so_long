@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:22:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/19 20:00:44 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/23 01:56:30 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	free_mlx(t_win *window)
 		mlx_destroy_image(window->mlx, window->end);
 	if (window->win)
 		mlx_destroy_window(window->mlx, window->win);
-	// mlx_destroy_display(window->mlx); for linux;
+	mlx_destroy_display(window->mlx); // for Linux
 	free(window->mlx);
 	window->mlx = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:55:51 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/20 01:24:27 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/23 01:12:48 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,19 @@ void	print_win(void)
 	ft_printf("! Helal olsun moruk !\n");
 }
 
-void	exit_with_error(const char *msg, t_map *map)
+void	return_with_error(const char *msg, t_map *map)
 {
 	ft_printf("Error: %s\n", msg);
 	free_double(map->map_lines);
 	free(map);
-	exit(1);
 }
 
 void	print_invalid(t_map *map)
 {
-	if (map->player_count < 1)
-		exit_with_error("Not Enough Player", map);
-	if (map->end_count < 1)
-		exit_with_error("Not Enough Gate", map);
+	if (map->player_count != 1)
+		return_with_error("Not Enough Player", map);
+	if (map->end_count != 1)
+		return_with_error("Not Enough Gate", map);
 	if (map->coin_count < 1)
-		exit_with_error("Not Enough Coin", map);
+		return_with_error("Not Enough Coin", map);
 }

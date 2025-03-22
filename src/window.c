@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:44:16 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/19 21:13:57 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:22:14 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,5 @@ void	init_win(char *arg, t_win **window)
 	}
 	(*window)->map = init_map(arg);
 	set_win_values(*window);
+	valid_path(*window);
 }

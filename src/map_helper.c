@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:54:49 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/19 21:08:18 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/23 01:12:38 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	map_size_control(t_map *map)
 	while (map->map_lines[i])
 	{
 		if ((int)ft_strlen(map->map_lines[i]) != len)
-			exit_with_error("Map Line Invalid Size", map);
+			return_with_error("Map Line Invalid Size", map);
 		i++;
 	}
 }
@@ -60,11 +60,11 @@ static void	check_map_borders(t_map *map)
 	last = map->w - 1;
 	while (map->map_lines[0][++i])
 		if (map->map_lines[0][i] != '1' || map->map_lines[map->h - 1][i] != '1')
-			exit_with_error("Map is not enclosed by walls", map);
+			return_with_error("Map is not enclosed by walls", map);
 	i = -1;
 	while (map->map_lines[++i])
 		if (map->map_lines[i][0] != '1' || map->map_lines[i][last] != '1')
-			exit_with_error("Map is not enclosed by walls", map);
+			return_with_error("Map is not enclosed by walls", map);
 }
 
 static int	check_valid_characters(const char *str)
@@ -92,7 +92,7 @@ void	validate_map(t_map *map)
 	while (map->map_lines[y])
 	{
 		if (!check_valid_characters(map->map_lines[y]))
-			exit_with_error("Invalid Character in Map", map);
+			return_with_error("Invalid Character in Map", map);
 		y++;
 	}
 }

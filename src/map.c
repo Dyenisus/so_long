@@ -6,11 +6,40 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:51:43 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/19 21:05:58 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/23 01:34:02 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
+
+static void	measure_map(t_map *map)
+{
+	int		i;
+
+	if (!*(map->map_lines))
+	{
+		free_double(map->map_lines);
+		free(map);
+		ft_printf("Error: Invalid Map\n");
+		return ;
+	}
+	map->w = (int)ft_strlen(map->map_lines[0]);
+	i = 0;
+	while (map->map_lines[i])
+		i++;
+	map->h = i;
+}
+
+static void	is_line_empty(char *temp, char *c)
+{
+	if (c[0] != '\n')
+		return ;
+	if (temp)
+		free(temp);
+	free(c);
+	ft_printf("Error: Empty Line in map\n");
+	return ;
+}
 
 static char	*read_lines(char *result, int fd)
 {
@@ -24,6 +53,7 @@ static char	*read_lines(char *result, int fd)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
+		is_line_empty(temp, line);
 		temp = ft_strjoin(result, line);
 		free(line);
 		free(result);
@@ -31,7 +61,7 @@ static char	*read_lines(char *result, int fd)
 		{
 			close(fd);
 			ft_printf("Error: Memory allocation failed\n");
-			exit(1);
+			return (NULL);
 		}
 		result = temp;
 	}
@@ -42,25 +72,27 @@ static void	mapper(char *arg, t_map *map)
 {
 	char	*result;
 	int		fd;
-	int		i;
 
 	fd = open(arg, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf("Error: File could not be opened\n");
+		return ;
+	}
 	result = ft_strdup("");
 	if (!result)
 	{
 		close(fd);
 		ft_printf("Error: Memory allocation failed\n");
-		exit(1);
+		return ;
 	}
 	result = read_lines(result, fd);
 	close(fd);
+	if (!result)
+		return ;
 	map->map_lines = ft_split(result, '\n');
 	free(result);
-	map->w = (int)ft_strlen(map->map_lines[0]);
-	i = 0;
-	while (map->map_lines[i])
-		i++;
-	map->h = i;
+	measure_map(map);
 }
 
 t_map	*init_map(char *arg)
@@ -71,13 +103,10 @@ t_map	*init_map(char *arg)
 	if (!map)
 	{
 		ft_printf("Error: Map Cannot Be Initialized\n");
-		exit(1);
+		return (NULL);
 	}
-	mapper(arg, map);
-	validate_map(map);
+	mapper(arg, map); // map->map_lines
+	validate_map(map); // 
 	map_helper(map);
-	while (map->map_lines[map->h])
-		map->h++;
-	map->w = ft_strlen(map->map_lines[0]);
 	return (map);
 }

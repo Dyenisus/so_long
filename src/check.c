@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:23:30 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/19 20:50:27 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/22 23:53:08 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static	int	check_elements(const char **file_paths, int *fd)
 		}
 		i++;
 	}
-	while (i >= 0)
-		close(fd[i--]);
+	while (--i >= 0)
+		close(fd[i]);
 	return (1);
 }
 

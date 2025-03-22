@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:43:50 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/20 01:17:05 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/23 01:58:48 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,25 @@ static void	player_move(t_win *win, char key, int x, int y)
 	}
 }
 
-// Left is Linux Right is Mac erase according to that
-int	key_hook(int keycode, void *param)
+int	key_hook(int keycode, void *param) // for Linux
 {
 	t_win	*window;
 
 	window = (t_win *)param;
 	mlx_clear_window(window->mlx, window->win);
-	if (keycode == 53) // ESC keycode == 65307 || 
+	if (keycode == 65307)
 	{
 		ft_printf("Exitting Game.....\n");
 		free_all(window);
 		exit(0);
 	}
-	else if (keycode == 13) // W keycode == 119 ||
+	else if (keycode == 119)
 		player_move(window, 'W', window->player->x, window->player->y - 64);
-	else if (keycode == 0) // A keycode == 97 || 
+	else if (keycode == 97)
 		player_move(window, 'A', window->player->x - 64, window->player->y);
-	else if (keycode == 1) // S keycode == 115 ||
+	else if (keycode == 115)
 		player_move(window, 'S', window->player->x, window->player->y + 64);
-	else if (keycode == 2) // D keycode == 100 || 
+	else if (keycode == 100)
 		player_move(window, 'D', window->player->x + 64, window->player->y);
 	render_map(window);
 	return (0);
@@ -81,7 +80,6 @@ static int	close_frame(t_win *window)
 
 void	motion(t_win *window)
 {
-	// mlx_hook takes specific functions don't forget to look to prototype
 	mlx_hook(window->win, 2, 1L << 0, &key_hook, window);
 	mlx_hook(window->win, 17, 0, &close_frame, window);
 }
