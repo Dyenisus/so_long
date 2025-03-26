@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/22 21:00:06 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/22 22:41:56 by yesoytur         ###   ########.fr       */
+/*   Created: 2025/03/26 13:06:49 by yesoytur          #+#    #+#             */
+/*   Updated: 2025/03/26 14:40:29 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	**ft_strdup_2d(const char **str)
 	return (ptr);
 }
 
-static void	flood_fill(char **map, t_size size, t_size begin)
+static void	flood_fill(char **map, t_flood size, t_flood begin)
 {
 	if (map[begin.y][begin.x] == 'E')
 	{
@@ -64,10 +64,10 @@ static void	flood_fill(char **map, t_size size, t_size begin)
 		|| map[begin.y][begin.x] == 'F')
 		return ;
 	map[begin.y][begin.x] = 'F';
-	flood_fill(map, size, (t_size){begin.x - 1, begin.y});
-	flood_fill(map, size, (t_size){begin.x + 1, begin.y});
-	flood_fill(map, size, (t_size){begin.x, begin.y - 1});
-	flood_fill(map, size, (t_size){begin.x, begin.y + 1});
+	flood_fill(map, size, (t_flood){begin.x - 1, begin.y});
+	flood_fill(map, size, (t_flood){begin.x + 1, begin.y});
+	flood_fill(map, size, (t_flood){begin.x, begin.y - 1});
+	flood_fill(map, size, (t_flood){begin.x, begin.y + 1});
 }
 
 static void	is_accessable(t_win *window, char **map)
@@ -84,9 +84,8 @@ static void	is_accessable(t_win *window, char **map)
 				|| map[i[0]][i[1]] == '0'
 				|| map[i[0]][i[1]] == '\n'))
 			{
-				free_all(window);
-				ft_printf("Error: Invalid Map\n");
-				exit(1);
+				free_double(map);
+				exit_with_error_win("Map is not accessable", window);
 			}
 		}
 	}
@@ -96,16 +95,12 @@ static void	is_accessable(t_win *window, char **map)
 void	valid_path(t_win *window)
 {
 	char	**map;
-	t_size	size;
-	t_size	begin;
+	t_flood	size;
+	t_flood	begin;
 
 	map = ft_strdup_2d((const char **)window->map->map_lines);
 	if (!map)
-	{
-		free_all(window);
-		ft_printf("Error: Invalid Map\n");
-		exit(1);
-	}
+		exit_with_error_win("Valid path cannot be allocated", window);
 	size.x = window->map->w;
 	size.y = window->map->h;
 	begin.x = window->player->x;

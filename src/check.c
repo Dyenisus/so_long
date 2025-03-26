@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:23:30 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/22 23:53:08 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:32:50 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static	int	check_elements(const char **file_paths, int *fd)
 	return (1);
 }
 
-static int	check_char(const char **file_paths, int *fd)
+static int	check_player(const char **file_paths, int *fd)
 {
 	int	i;
 
@@ -69,20 +69,20 @@ void	xmp_check(void)
 	file_paths[5] = "./assets/gate.xpm";
 	file_paths[6] = "./assets/ground.xpm";
 	file_paths[7] = "./assets/wall.xpm";
-	if (!check_char(file_paths, fd))
-		exit(1);
+	if (!check_player(file_paths, fd))
+		exit(EXIT_FAILURE);
 	if (!check_elements(file_paths, fd))
-		exit(1);
+		exit(EXIT_FAILURE);
 }
 
-static	int	arg_check(char *arg)
+static	int	check_extension(char *arg)
 {
 	int	len;
 
 	len = (int)ft_strlen(arg) - 4;
 	if (ft_strncmp(arg + len, ".ber", 4) != 0)
 	{
-		ft_printf("Error: Wrong Map File Extention\n");
+		ft_printf("Error: Wrong Map File Extension\n");
 		return (0);
 	}
 	return (1);
@@ -92,14 +92,14 @@ void	map_check(char *arg)
 {
 	int	fd;
 
-	if (!arg_check(arg))
-		exit(1);
+	if (!check_extension(arg))
+		exit(EXIT_FAILURE);
 	fd = open(arg, O_RDWR);
 	if (fd < 0)
 	{
-		close(fd);
+		//close(fd);
 		ft_printf("Error: Map File Can not be Opened\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	close(fd);
 }

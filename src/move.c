@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_move.c                                      :+:      :+:    :+:   */
+/*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 10:43:50 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/23 01:58:48 by yesoytur         ###   ########.fr       */
+/*   Created: 2025/03/26 13:16:06 by yesoytur          #+#    #+#             */
+/*   Updated: 2025/03/26 15:46:06 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	player_move(t_win *win, char key, int x, int y)
 		ft_printf("%d\n", win->player->move);
 		print_win();
 		free_all(win);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	if (win->map->map_lines[y / 64][x / 64] != '1'
 		&& win->map->map_lines[y / 64][x / 64] != 'E')
@@ -48,25 +48,25 @@ static void	player_move(t_win *win, char key, int x, int y)
 	}
 }
 
-int	key_hook(int keycode, void *param) // for Linux
+int	key_hook(int keycode, void *param)
 {
 	t_win	*window;
 
 	window = (t_win *)param;
 	mlx_clear_window(window->mlx, window->win);
-	if (keycode == 65307)
+	if (keycode == 53) // linux keycode == 65307
 	{
 		ft_printf("Exitting Game.....\n");
 		free_all(window);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
-	else if (keycode == 119)
+	else if (keycode == 13) //linux keycode == 119
 		player_move(window, 'W', window->player->x, window->player->y - 64);
-	else if (keycode == 97)
+	else if (keycode == 0) // linux keycode == 97
 		player_move(window, 'A', window->player->x - 64, window->player->y);
-	else if (keycode == 115)
+	else if (keycode == 1) // linux keycode == 115
 		player_move(window, 'S', window->player->x, window->player->y + 64);
-	else if (keycode == 100)
+	else if (keycode == 2) // linux keycode == 100
 		player_move(window, 'D', window->player->x + 64, window->player->y);
 	render_map(window);
 	return (0);
@@ -75,7 +75,7 @@ int	key_hook(int keycode, void *param) // for Linux
 static int	close_frame(t_win *window)
 {
 	free_all(window);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void	motion(t_win *window)

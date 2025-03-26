@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 11:51:43 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/23 01:34:02 by yesoytur         ###   ########.fr       */
+/*   Created: 2025/03/23 17:08:01 by yesoytur          #+#    #+#             */
+/*   Updated: 2025/03/26 14:27:33 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@ static void	measure_map(t_map *map)
 {
 	int		i;
 
-	if (!*(map->map_lines))
-	{
-		free_double(map->map_lines);
-		free(map);
-		ft_printf("Error: Invalid Map\n");
-		return ;
-	}
 	map->w = (int)ft_strlen(map->map_lines[0]);
 	i = 0;
 	while (map->map_lines[i])
@@ -30,22 +23,21 @@ static void	measure_map(t_map *map)
 	map->h = i;
 }
 
-static void	is_line_empty(char *temp, char *c)
+static void	shut_chr_down(t_map *map, char *temp, int fd, char *msg)
 {
-	if (c[0] != '\n')
-		return ;
+	close(fd);
 	if (temp)
 		free(temp);
-	free(c);
-	ft_printf("Error: Empty Line in map\n");
-	return ;
+	exit_with_error_map(msg, map);
 }
 
-static char	*read_lines(char *result, int fd)
+static char	*read_lines(char *result, int fd, t_map *map)
 {
 	char	*line;
 	char	*temp;
+	int		is_empty_line;
 
+	is_empty_line = 0;
 	line = NULL;
 	temp = NULL;
 	while (1)
@@ -53,16 +45,15 @@ static char	*read_lines(char *result, int fd)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		is_line_empty(temp, line);
+		if (line[0] == '\n')
+			is_empty_line = 1;
 		temp = ft_strjoin(result, line);
 		free(line);
 		free(result);
+		if (is_empty_line == 1)
+			shut_chr_down(map, temp, fd, "Empty line in map");
 		if (!temp)
-		{
-			close(fd);
-			ft_printf("Error: Memory allocation failed\n");
-			return (NULL);
-		}
+			shut_chr_down(map, temp, fd, "Temp Memory allocation failed");
 		result = temp;
 	}
 	return (result);
@@ -75,23 +66,23 @@ static void	mapper(char *arg, t_map *map)
 
 	fd = open(arg, O_RDONLY);
 	if (fd < 0)
-	{
-		ft_printf("Error: File could not be opened\n");
-		return ;
-	}
+		exit_with_error_map("File could not be opened", map);
 	result = ft_strdup("");
 	if (!result)
 	{
 		close(fd);
-		ft_printf("Error: Memory allocation failed\n");
-		return ;
+		exit_with_error_map("Memory allocation failed", map);
 	}
-	result = read_lines(result, fd);
+	result = read_lines(result, fd, map);
 	close(fd);
 	if (!result)
-		return ;
+		exit_with_error_map("Lines could not be read", map);
 	map->map_lines = ft_split(result, '\n');
 	free(result);
+	if (!map->map_lines)
+		exit_with_error_map("Lines could not be splitted", map);
+	if (!*(map->map_lines))
+		exit_with_error_map("Empty Map", map);
 	measure_map(map);
 }
 
@@ -101,12 +92,9 @@ t_map	*init_map(char *arg)
 
 	map = (t_map *)ft_calloc(1, sizeof(t_map));
 	if (!map)
-	{
-		ft_printf("Error: Map Cannot Be Initialized\n");
-		return (NULL);
-	}
-	mapper(arg, map); // map->map_lines
-	validate_map(map); // 
+		exit_with_error_map("Map Cannot Be Initialized", NULL);
+	mapper(arg, map);
+	validate_map(map);
 	map_helper(map);
 	return (map);
 }

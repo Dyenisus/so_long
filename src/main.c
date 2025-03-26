@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 20:40:35 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/19 20:47:58 by yesoytur         ###   ########.fr       */
+/*   Created: 2025/03/23 16:55:35 by yesoytur          #+#    #+#             */
+/*   Updated: 2025/03/26 13:21:30 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,20 @@
 
 int	main(int argc, char **argv)
 {
+	t_map	*map;
+	t_play	*player;
 	t_win	*win;
 
 	if (argc != 2)
 	{
-		ft_printf("Usage: ./so_long map_name.ber\n");
-		exit(1);
+		ft_printf("Usage: ./so_long maps/map_name.ber\n");
+		exit(EXIT_FAILURE);
 	}
 	xmp_check();
 	map_check(argv[1]);
-	init_win(argv[1], &win);
+	map = init_map(argv[1]);
+	player = init_player(map);
+	win = init_window(map, player);
 	render_map(win);
 	motion(win);
 	mlx_loop(win->mlx);

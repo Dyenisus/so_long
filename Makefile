@@ -6,24 +6,30 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror -g
 INCLUDES := -I ./ -I libft -I minilibx
 
-# Frameworks (Linux için)
+# Frameworks
 MLX := minilibx/libmlx.a
-FRAMEWORK := -Lminilibx -lmlx -lX11 -lXext -lm # for linux
+
+#FRAMEWORK := -L minilibx -lmlx -framework OpenGL -framework AppKit for MAC
+
+#FRAMEWORK := -Lminilibx -lmlx -lX11 -lXext -lm for linux
 
 # Source and object setup
 SRC_DIR := src
 OBJ_DIR := obj
-SRCS := $(wildcard $(SRC_DIR)/*.c)
+SRCS := $(addprefix $(SRC_DIR)/, \
+		check.c	floodfill.c	main.c	map_helper.c	move.c	print.c	textures.c \
+		exit.c	free.c	map.c	message.c	player.c	render.c	window.c)
+
 OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 # Libraries
 LIBFT := libft/libft.a
 
-# Colors
+# Colors 
 GREEN := \033[0;32m
 YELLOW := \033[0;33m
 RESET := \033[0m
-
+	
 # Default target
 all: $(LIBFT) $(MLX) $(NAME)
 

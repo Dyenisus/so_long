@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 21:20:39 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/19 20:01:16 by yesoytur         ###   ########.fr       */
+/*   Created: 2025/03/26 13:13:20 by yesoytur          #+#    #+#             */
+/*   Updated: 2025/03/26 13:14:35 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	set_textures(t_win *window, char c, int x, int y)
 {
-	mlx_put_image_to_window(window->mlx, window->win, window->ground, x, y);
-	if (c == 'P')
+	if (c == '0')
+		mlx_put_image_to_window(window->mlx, window->win, window->ground, x, y);
+	else if (c == 'P')
 	{
 		window->player->x = x;
 		window->player->y = y;

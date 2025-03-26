@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 18:22:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/23 01:56:30 by yesoytur         ###   ########.fr       */
+/*   Created: 2025/03/23 17:16:40 by yesoytur          #+#    #+#             */
+/*   Updated: 2025/03/26 15:49:18 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,17 @@ void	free_double(char **mapped)
 	free(mapped);
 }
 
-static void	free_player(t_win *window)
+void	free_map(t_map *map)
+{
+	if (!map)
+		return ;
+	if (map->map_lines)
+		free_double(map->map_lines);
+	free(map);
+	map = NULL;
+}
+
+static void	free_win_player(t_win *window)
 {
 	if (!window->player)
 		return ;
@@ -54,7 +64,7 @@ static void	free_mlx(t_win *window)
 		mlx_destroy_image(window->mlx, window->end);
 	if (window->win)
 		mlx_destroy_window(window->mlx, window->win);
-	mlx_destroy_display(window->mlx); // for Linux
+	// mlx_destroy_display(window->mlx); for Linux
 	free(window->mlx);
 	window->mlx = NULL;
 }
@@ -63,14 +73,8 @@ void	free_all(t_win *window)
 {
 	if (!window)
 		return ;
-	if (window->map)
-	{
-		if (window->map->map_lines)
-			free_double(window->map->map_lines);
-		free(window->map);
-		window->map = NULL;
-	}
-	free_player(window);
+	free_map(window->map);
+	free_win_player(window);
 	free_mlx(window);
 	free(window);
 }

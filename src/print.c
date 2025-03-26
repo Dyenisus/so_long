@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 11:55:51 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/03/23 01:12:48 by yesoytur         ###   ########.fr       */
+/*   Created: 2025/03/23 17:31:04 by yesoytur          #+#    #+#             */
+/*   Updated: 2025/03/26 15:58:00 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	print_amongus(void)
 {
-	ft_printf("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK\n"
-		"KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK\n"
-		"KKKKKKKKKKKKKOxlc;;;;;;;;;:lx0KKKKKKKKKKKKK\n"
-		"KKKKKKKKKK0d:.              'lOKKKKKKKKKKK\n"
+	ft_printf("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK\n"
+		"KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK\n"
+		"KKKKKKKKKKKKKOxlc;;;;;;;;;:lx0KKKKKKKKKKK\n"
+		"KKKKKKKKKK0d:.              'lOKKKKKKKKKK\n"
 		"KKKKKKKKOl'  ...'',,,,,,''.. 'xKKKKKKKKKK\n"
 		"KKKKKKKd'  .',,;,,;;;;;;;;;,. 'kKKKKKKKKK\n"
 		"KKKKKKd.    ..........',;;;;;. ,OKKKKKKKK\n"
@@ -25,17 +25,17 @@ static void	print_amongus(void)
 		"KKKo..ckKNWWWWNKOOkc,..  ';,;,. ;0XKKKKKK\n"
 		"KKd.;kKXXXXXXXK0O0Ol,,.  .,;;,. .;clodOKK\n"
 		"KKc ;dxxkkkkkkkkkdc,',.  .,;;,'.      .oK\n"
-		"KKl ..,,;;;;;:;;;,,''.   ';,;,'. .,,'..x\n"
-		"KKO:  ....'''',''...   .',;;;,'. .'',. l\n"
-		"KKK0:         .    ....,;;,;;,..  .... ;\n"
-		"KKKK: .,'........'',;;;;;;;;;'..  .... '\n"
-		"KKKK: .;;;;;;;;;;;;;;;;;;;;;,...  .... .\n"
-		"KKK0: .;;;;;;;;;;;;;;;;;;;;,'...  .... .\n"
-		"KKK0: .,;,;;;;;;;;;;;;;;;;,'....  .... .\n"
-		"KKKK: ..,;;;;;;;;;;;;;;;;,'.....  .... .\n"
-		"KKKKl ...'',,,,;,,,,,,,,''...... ..... .\n"
-		"KKKKd..........'................ ..... :\n"
-		"KKKKk' ......................... .... .d\n");
+		"KKl ..,,;;;;;:;;;,,''.   ';,;,'. .,,'..xK\n"
+		"KKO:  ....'''',''...   .',;;;,'. .'',. lK\n"
+		"KKK0:         .    ....,;;,;;,..  .... ;K\n"
+		"KKKK: .,'........'',;;;;;;;;;'..  .... 'K\n"
+		"KKKK: .;;;;;;;;;;;;;;;;;;;;;,...  .... .K\n"
+		"KKK0: .;;;;;;;;;;;;;;;;;;;;,'...  .... .K\n"
+		"KKK0: .,;,;;;;;;;;;;;;;;;;,'....  .... .K\n"
+		"KKKK: ..,;;;;;;;;;;;;;;;;,'.....  .... .K\n"
+		"KKKKl ...'',,,,;,,,,,,,,''...... ..... .K\n"
+		"KKKKd..........'................ ..... :K\n"
+		"KKKKk' ......................... .... .dK\n");
 }
 
 static void	print_sus(void)
@@ -53,22 +53,4 @@ void	print_win(void)
 	print_sus();
 	print_amongus();
 	print_sus();
-	ft_printf("! Helal olsun moruk !\n");
-}
-
-void	return_with_error(const char *msg, t_map *map)
-{
-	ft_printf("Error: %s\n", msg);
-	free_double(map->map_lines);
-	free(map);
-}
-
-void	print_invalid(t_map *map)
-{
-	if (map->player_count != 1)
-		return_with_error("Not Enough Player", map);
-	if (map->end_count != 1)
-		return_with_error("Not Enough Gate", map);
-	if (map->coin_count < 1)
-		return_with_error("Not Enough Coin", map);
 }
